@@ -19,6 +19,7 @@ Features:
   adding textual comments to equations in MS Word. **Long equations can't be commented!! If you've added a comment to a long eqaution, it will
   be removed. There is no reason to do this as MS Word does not automatically line-break long equations. Single-line display and stacked (multiline)
   equations can be commented.**
+- **Single-line equations having comments will be tagged and labeled (meaning I wouldn't suggest having duplicate comments). Multi-line equations will also be tagged in a way very similar to how it appears in Microsoft Word, but note that the way the equations are tagged will be different, and will NOT have labels.**
 - Prevents overfull H-boxes. If an equation is too long without a
   line break, it will automatically be broken in half.
 - This filter aims to prevent as many LaTeX errors as possible.

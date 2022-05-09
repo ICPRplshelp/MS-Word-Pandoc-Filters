@@ -16,7 +16,9 @@ Features:
   not contain anything, that if translated into TeX code, would have
   a backslash, except `\text`. Please put a number or a phrase - that's
   all you need. Please use "quotation marks" instead of CTRL+I when
-  adding textual comments to equations in MS Word.
+  adding textual comments to equations in MS Word. **Long equations can't be commented!! If you've added a comment to a long eqaution, it will
+  be removed. There is no reason to do this as MS Word does not automatically line-break long equations. Single-line display and stacked (multiline)
+  equations can be commented.**
 - Prevents overfull H-boxes. If an equation is too long without a
   line break, it will automatically be broken in half.
 - This filter aims to prevent as many LaTeX errors as possible.

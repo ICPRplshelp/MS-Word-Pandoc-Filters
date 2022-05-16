@@ -7,6 +7,27 @@ This is a Pandoc filter to make equations typed in Microsoft Word functional whe
 Normally, when using Pandoc when converting Microsoft Word documents, equations
 tend to look a bit off, causing them to not work well. This filter repairs it.
 
+**SAMPLE COMMAND**
+
+If `WORD_FILE.docx` is the word file you wish to convert
+and `TEX_FILE.tex` is the name of the `.tex` file you want to output
+
+Then a sample command would be, **PROVIDED THE COMMAND PROMPT IS FOCUSED IN THE SAME FOLDER OF THE PYTHON FILTER** (type CMD in a Window folder's search bar to open up the command prompt focused on that folder:
+
+```
+pandoc -f docx WORD_FILE.docx --filter=ms_word_eqn_filter.py -t latex -s -o TEX_FILE.tex
+```
+
+Of course, I would find a way to automate this process. Here's some Python code that does exactly the same thing:
+
+```py
+import subprocess
+word_file = 'WORD_FILE.docx'
+output_file = 'TEX_FILE.tex'
+cmd = ['pandoc', '-f', 'docx', word_file, '--filter=', 'ms_word_eqn_filter.py', '-t', 'latex', '-s', '-o', 'output_file]
+subprocess.run(CMD)
+```
+
 Features:
 
 - Stacked equations will automatically be aligned by the first `=` signs,

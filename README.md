@@ -28,6 +28,18 @@ cmd = ['pandoc', '-f', 'docx', word_file, '--filter=', 'ms_word_eqn_filter.py', 
 subprocess.run(CMD)
 ```
 
+Version that creates an images folder:
+
+```py
+import subprocess
+word_file = 'WORD_FILE.docx'
+output_file = 'TEX_FILE.tex'
+img_folder_name = 'imgs'
+
+cmd = ['pandoc', '-f', 'docx', word_file, '--extract-media', img_folder_name, '--filter=', 'ms_word_eqn_filter.py', '-t', 'latex', '-s', '-o', 'output_file]
+subprocess.run(CMD)
+```
+
 Features:
 
 - Stacked equations will automatically be aligned by the first `=` signs,

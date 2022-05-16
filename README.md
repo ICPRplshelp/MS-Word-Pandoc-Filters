@@ -7,7 +7,7 @@ This is a Pandoc filter to make equations typed in Microsoft Word functional whe
 Normally, when using Pandoc when converting Microsoft Word documents, equations
 tend to look a bit off, causing them to not work well. This filter repairs it.
 
-**SAMPLE COMMAND**
+**SAMPLE COMMAND** (scroll down and read the requirments first)
 
 If `WORD_FILE.docx` is the word file you wish to convert
 and `TEX_FILE.tex` is the name of the `.tex` file you want to output

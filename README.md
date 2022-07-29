@@ -12,7 +12,7 @@ tend to look a bit off, causing them to not work well. This filter repairs it.
 If `WORD_FILE.docx` is the word file you wish to convert
 and `TEX_FILE.tex` is the name of the `.tex` file you want to output
 
-Then a sample command would be, **PROVIDED THE COMMAND PROMPT IS FOCUSED IN THE SAME FOLDER OF THE PYTHON FILTER** (type CMD in a Window folder's search bar to open up the command prompt focused on that folder:
+Then a sample command would be, **PROVIDED THE COMMAND PROMPT IS FOCUSED IN THE SAME FOLDER OF THE PYTHON FILTER** (type CMD in a Window folder's search bar to open up the command prompt focused on that folder):
 
 ```
 pandoc -f docx WORD_FILE.docx --filter=ms_word_eqn_filter.py -t latex -s -o TEX_FILE.tex

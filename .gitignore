@@ -4,6 +4,7 @@
 *.pdf
 *.bib
 *.jpg
+*.html
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
@@ -21,8 +22,14 @@
 
 out/
 
-split_long_equations.py
-main.py
-scratchfile.py
+*.py
 !helper_files/
 !ms_word_eqn_filter.py
+!code_block.py
+!image_captioner_3.py
+!start_wrapper.py
+
+__pycache__/
+aux_files/
+export/
+.idea/

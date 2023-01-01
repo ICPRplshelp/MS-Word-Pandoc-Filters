@@ -4,6 +4,14 @@ in Microsoft Word to be treated as Markdown code blocks.
 So you can define their languages on top.
 Languages are not case-sensitive, so feel free
 to ignore casing in your MS Word document.
+
+The first line: If it's not a language, nothing will happen.
+If it is a language, then remove the first line from the code block,
+strip it, lowercase it, and set it as the language of the code block.
+
+Also ensures that smart quotes are converted to regular
+quotes for both inline code and source code. Note that you cannot
+define languages for inline code blocks.
 """
 
 
@@ -102,6 +110,10 @@ ALIASES = {
 
 def set_code_block_language(code_block, doc):
     """Also ensures all tabs are four spaces"""
+    if type(code_block) == pf.Code:
+        code_block.text = code_block.text.replace('\t', '    ').replace("‘", "'")\
+            .replace("’", "'").replace('“', '"').replace('”', '"')\
+            .replace('ÔÇ£', '"').replace('ÔÇØ', '"')
     if type(code_block) == pf.CodeBlock:
         # Get the first line of the code block
         # pf.debug(dir(code_block))
@@ -114,7 +126,9 @@ def set_code_block_language(code_block, doc):
             # Apparently the classes is the language
             code_block.classes = [first_line.lower()]
             code_block.text = '\n'.join(code_block.text.strip().split('\n')[1:])
-        code_block.text = code_block.text.replace('\t', '    ')
+        code_block.text = code_block.text.replace('\t', '    ').replace("‘", "'")\
+            .replace("’", "'").replace('“', '"').replace('”', '"')\
+            .replace('ÔÇ£', '"').replace('ÔÇØ', '"')
 
 
 def main(doc=None):

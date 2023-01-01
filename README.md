@@ -19,10 +19,28 @@ We have some filters:
       of this Python file for more reference, and scroll down to see
       the divs/environments that are supported.
 - `ms_word_eqn_filter.py`
-  - Read below
+    - Read below
 
 **IMPORTANT:** One of the filters may break if you don't enter `set PYTHONIOENCODING=utf-8`
 in command prompt before running the filter. You must do this every time you open command prompt.
+
+## I'm getting this error: `pandoc: Could not find executable python` in Mac OS! How do I fix it?
+
+If you're getting this error, it probably means that running `python` in terminal does nothing. Hence, you'll
+need to mess with some environment variables. The steps are a bit complicated, but what you are trying to do is
+to make `python` an alias to `python3.11`.
+
+Follow these steps carefully.
+
+1. Open terminal. Run `nano ~/.bashrc`
+2. If you don't see this in the file, add the following, as **verbatim** into the file in its own line: `export PATH="/usr/local/bin:$PATH"`
+3. Save the file (press `CTRL+O` then hit `RETURN`)
+4. Close and re-open terminal (and maybe all other apps that involve using the terminal)
+5. Run `sudo ln -s /usr/local/bin/python3.11 /usr/local/bin/python` in the terminal. NOTE: you may need to replace `/usr/local/bin/python3.11` with whatever
+   you see here: ![this image](https://media.discordapp.net/attachments/889357303034314782/1059019405721354291/image.png) (Open PyCharm, go to settings > python interpreter, and look for the specific interpreter you want to target)
+6. Verify what you did worked by typing `python` in terminal. If you are successful, the python console should appear. Type `exit()` to exit the console, but
+   now the filters here should work regardless.
+
 
 # Legacy Readme for `ms_word_eqn_filter.py` 
 

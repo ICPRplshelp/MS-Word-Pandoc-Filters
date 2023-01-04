@@ -11,7 +11,7 @@ We have some filters:
 
 - `image_captioner_3.py`
     - Makes all Alt text captions. Precisely:
-     ![this](https://media.discordapp.net/attachments/1036007721343926342/1060011166853771274/image.png)
+    ![this](https://media.discordapp.net/attachments/1036007721343926342/1060011166853771274/image.png)
     - As of right now, you cannot tamper with figure numbering or make references to figures.
 - `code_block.py`
     - Makes source code blocks behave like Markdown code blocks, exactly.
@@ -103,7 +103,8 @@ Follow these steps carefully.
 3. Save the file (press `CTRL+O` then hit `RETURN`)
 4. Close and re-open terminal (and maybe all other apps that involve using the terminal)
 5. Run `sudo ln -s /usr/local/bin/python3.11 /usr/local/bin/python` in the terminal. NOTE: you may need to replace `/usr/local/bin/python3.11` with whatever
-   you see here: ![this image](https://media.discordapp.net/attachments/889357303034314782/1059019405721354291/image.png) (Open PyCharm, go to settings > python interpreter, and look for the specific interpreter you want to target)
+   you see here: 
+   ![this image](https://media.discordapp.net/attachments/889357303034314782/1059019405721354291/image.png) (Open PyCharm, go to settings > python interpreter, and look for the specific interpreter you want to target)
 6. Verify what you did worked by typing `python` in terminal. If you are successful, the python console should appear. Type `exit()` to exit the console, but
    now the filters here should work regardless.
 

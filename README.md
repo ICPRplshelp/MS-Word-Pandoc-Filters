@@ -11,7 +11,7 @@ We have some filters:
 
 - `image_captioner_3.py`
     - Makes all Alt text captions. Precisely:
-    ![this](https://media.discordapp.net/attachments/1036007721343926342/1060011166853771274/image.png)
+    - ![this](https://media.discordapp.net/attachments/1036007721343926342/1060011166853771274/image.png)
     - As of right now, you cannot tamper with figure numbering or make references to figures.
 - `code_block.py`
     - Makes source code blocks behave like Markdown code blocks, exactly.

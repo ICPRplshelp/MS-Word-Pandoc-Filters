@@ -3,26 +3,91 @@
 This filter is based on the same modules I've
 created in [Quick Word To LaTeX](https://github.com/ICPRplshelp/Quick-word-to-LaTeX-4).
 
-This is a Pandoc filter to make equations typed in Microsoft Word functional when run with Pandoc.
-Normally, when using Pandoc when converting Microsoft Word documents, equations
-tend to look a bit off, causing them to not work well. This filter repairs it.
+These set of filters bridges the gap between Microsoft Word and Markdown when running conversions from them. Of course, Markdown **is** better for more complicated papers, so weigh pros and cons of using MS Word and Markdown accordingly. Moreover, use MS Word for informal documents that you won't be submitting as a thesis or publishing in a prestigious journal.
+
+I know that `docx+styles` exists as an option (for those who know it), but there are some downsides that exist with it -- mainly, it messes up how code blocks work -- which I plan to fix (not at the moment).
 
 We have some filters:
 
 - `image_captioner_3.py`
-    - Makes all Alt text captions
+    - Makes all Alt text captions. Precisely: ![this](https://media.discordapp.net/attachments/1036007721343926342/1060011166853771274/image.png)
+    - As of right now, you cannot tamper with figure numbering or make references to figures.
 - `code_block.py`
     - Makes source code blocks behave like Markdown code blocks, exactly.
       Define their language on the top of the code block.
+     ![example](https://media.discordapp.net/attachments/1036007721343926342/1060011485713137804/image.png)
+
 - `start_wrapper.py`
     - Bring Pandoc's Div syntax to MS Word. Read the header
       of this Python file for more reference, and scroll down to see
       the divs/environments that are supported.
+    - I used this using Python by itself and no packages, so **this filter will only work in the outer most div** (hence, it won't work if you nest anything in a list or a table)
+    - > ::: definition term
+      >
+      > Definition text goes here
+      >
+      > /// definition
+
+    - All the text inside will be put in a `div` with the **class** set to the first word\*, and the **title** set to all words after that. For instance, the quote above would be morphed into
+    - ```html
+      <div class="definition" title="term"> 
+      Definition text goes here 
+      </div>
+      ```
+    - There will **not** be a title if it is blank.
+    - If you use this with the [Pandoc LaTeX environment](https://github.com/chdemko/pandoc-latex-environment) filter, you will end up with
+    - ```tex
+      \begin{definition}[text goes here]
+      Definition text goes here
+      \end{definition}
+      ```
+    - **The classes are hardcoded!!!** For now. This means there is a limited number of classes that work with this. You can always change the source code if you want to. Just be aware of this:
+
+
+```python
+starter_flag = ':::'
+    ending_flag_f = '///'
+
+    asts = [  # ast (ignore), div name, start flag (text after ::: to signal env start), end flag (text after /// to signal end of env)
+        ASTProcessor(ast, "note", "note", "note", starter_flag, ending_flag_f),
+        ASTProcessor(ast, "tip", "tip", "tip", starter_flag, ending_flag_f),
+        ASTProcessor(ast, "warning", "warning", "warning", starter_flag, ending_flag_f),
+        ASTProcessor(ast, "caution", "caution", "caution", starter_flag, ending_flag_f),
+        ASTProcessor(ast, "important", "important", "important", starter_flag, ending_flag_f),
+        # ::: proof \n\n [proof text] \n\n /// QED. This one is special
+        ASTProcessor(ast, "proof", "proof", "QED", starter_flag, ending_flag_f),
+        ASTProcessor(ast, "definition", "definition", "definition", starter_flag, ending_flag_f),
+        ASTProcessor(ast, "solution", "solution", "solution", starter_flag, ending_flag_f),
+        ASTProcessor(ast, "box", "box", "box", starter_flag, ending_flag_f)
+    ]
+```
+
+In the future, I might allow wildcards.
+
 - `ms_word_eqn_filter.py`
     - Read below
 
 **IMPORTANT:** One of the filters may break if you don't enter `set PYTHONIOENCODING=utf-8`
 in command prompt before running the filter. You must do this every time you open command prompt.
+
+
+## How to use filters
+
+Anywhere in your pandoc command, if `--filter <filtername>` is typed, then the filter `<filtername>` will be applied. `<filtername>` is the filter; an example being `code_block.py`.
+
+Since the filter is a **path to a file**, it must be in the same working directory as where you are executing the command, or it must be a full path right from the root (`C:` in windows). I believe in Pandoc's installation files there
+is a folder where if any filter is there, you can just type
+the filter's name without any verboseness regardless of which working directory you are in.
+
+A document can have multiple filters.
+
+You must have these python packages installed first:
+
+```
+panflute
+pandocfilters
+```
+
 
 ## I'm getting this error: `pandoc: Could not find executable python` in Mac OS! How do I fix it?
 
@@ -42,109 +107,22 @@ Follow these steps carefully.
    now the filters here should work regardless.
 
 
-# Legacy Readme for `ms_word_eqn_filter.py` 
+# How the equation filter works
 
-**SAMPLE COMMAND** (scroll down and read the requirments first)
+I'll be assuming you're familiar with typesetting equations in Microsoft Word. If you aren't, take a look at [this guide that I've written.](https://github.com/ICPRplshelp/Quick-word-to-LaTeX-4/wiki/Microsoft-Word-Equation-Syntax)
 
-If `WORD_FILE.docx` is the word file you wish to convert
-and `TEX_FILE.tex` is the name of the `.tex` file you want to output
+The equation filter works by ensuring that Pandoc's handling of Microsoft
+Word equations does not mess anything up. In other words, it makes
+the equations you type in Microsoft Word appear as how you actually
+typed it in MS Word, when Pandoc is used with that filter.
 
-Then a sample command would be, **PROVIDED THE COMMAND PROMPT IS FOCUSED IN THE SAME FOLDER OF THE PYTHON FILTER** (type
-CMD in a Window folder's search bar to open up the command prompt focused on that folder):
+Normally, equations may break without the filter. If you use this
+filter, there are some conventions you **must** follow:
 
-```
-pandoc -f docx WORD_FILE.docx --filter=ms_word_eqn_filter.py -t latex -s -o TEX_FILE.tex
-```
+- To simulate a series of stacked display equations (typically done with `\begin{align} ... \end{align}`), use `SHIFT+ENTER` to create new rows (the filter will use `\begin{aligned} ... \end{aligned}`). Do not use any other method. If you don't use `SHIFT+ENTER`, then the two equations will be treated as separate display equations.
 
-Of course, I would find a way to automate this process. Here's some Python code that does exactly the same thing:
+- Try to minimize the use of `CTRL+B`, `CTRL+I`, or any other formatting when writing equations.
 
-```py
-import subprocess
+- Avoid numbering your equations. Even though this filter supports it, this feature is very unstable. If you want to add comments to equations, you'll have to do it in some other way (equivalent to `\emsp \text{comment here}`)
 
-word_file = 'WORD_FILE.docx'
-output_file = 'TEX_FILE.tex'
-cmd = ['pandoc', '-f', 'docx', word_file, '--filter=', 'ms_word_eqn_filter.py', '-t', 'latex', '-s', '-o', 'output_file]
-       subprocess.run(CMD)
-```
-
-Version that creates an images folder:
-
-```py
-import subprocess
-
-word_file = 'WORD_FILE.docx'
-output_file = 'TEX_FILE.tex'
-img_folder_name = 'imgs'
-
-cmd = ['pandoc', '-f', 'docx', word_file, '--extract-media', img_folder_name, '--filter=', 'ms_word_eqn_filter.py',
-       '-t', 'latex', '-s', '-o', 'output_file]
-       subprocess.run(CMD)
-```
-
-Features:
-
-- Stacked equations will automatically be aligned by the first `=` signs,
-  or other similar signs, or `+`, `-` if none are present for too long.
-- Allows equations to be commented. In Microsoft Word, # is used to make
-  flushed-right equation comments. Note that equation comments may
-  not contain anything, that if translated into TeX code, would have
-  a backslash, except `\text`. Please put a number or a phrase - that's
-  all you need. Please use "quotation marks" instead of CTRL+I when
-  adding textual comments to equations in MS Word. **Long equations can't be commented!! If you've added a comment to a
-  long equation, it will
-  be removed. There is no reason to do this as MS Word does not automatically line-break long equations. Single-line
-  display and stacked (multiline)
-  equations can be commented.**
-- **Single-line equations having comments will be tagged and labeled (meaning I wouldn't suggest having duplicate
-  comments). Multi-line equations will also be tagged in a way very similar to how it appears in Microsoft Word, but
-  note that the way the equations are tagged will be different, and will NOT have labels.**
-- Prevents overfull H-boxes. If an equation is too long without a
-  line break, it will automatically be broken in half.
-- This filter aims to prevent as many LaTeX errors as possible.
-  I've accounted for the errors that could rise.
-
-TL;DR - this feature is a must-have if you plan on converting
-Microsoft Word `*.docx` files using Pandoc. This properly
-converts equations in a way that Pandoc is incapable of.
-Without this tool, equations will look very weird and won't
-run well.
-
-This is a universal filter. This is NOT LaTeX exclusive.
-This filter directly interacts with the AST Pandoc produces,
-meaning it will work if you use Pandoc to convert a(n) MS Word
-file to HTML, or to LaTeX.
-
-## How to use
-
-**There are some requirements before using this!!**
-
-1. You must have Python installed. Please don't
-   install it from the Windows 10 store.
-2. Install panflute. It's the easiest when
-   you only have one version of python installed.
-   Follow the instructions [here](https://github.com/sergiocorreia/panflute).
-3. Download this repository. Clone it. Extract all
-   its contents to a folder on your computer.
-4. Open CMD and `cd` it to the same directory
-   as `ms_word_eqn_filter.py`. Note that `helper_files` must
-   also be in the same directory as the `py` file I mentioned.
-5. Run the pandoc command and pass in that filter.
-
-There are better ways to do this, but this is how I'll outline
-the steps.
-
-If you understand how to pass in Pandoc filters,
-you'll know what I've written below does. All
-you need to do is pass in the filter to the
-command-line arguments of Pandoc.
-
-```
---filter=ms_word_eqn_filter.py
-```
-
-Did you know? You can export all images within an
-MS Word file using `--extract-media=imgs`.
-
-## Bugs?
-
-Please report them in the issue tracker.
+- `\funcapply` may not work. Use quotes (`""`, has the same effect as `\text{...}`) instead.

@@ -200,6 +200,8 @@ def ind_eqn_repairs(eq: str) -> str:
     :param eq: Equation to pass in.
     :return: Fixed equation.
     """
+    # the only error
+    eq = eq.replace('≢', '\\not\\equiv ')
     eq = w2l.fix_vectors_again(eq)
     eq = dbl.fix_accents(eq)
     eq = dbl.aug_matrix_spacing(eq)

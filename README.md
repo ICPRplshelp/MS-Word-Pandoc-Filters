@@ -1,5 +1,7 @@
 # Microsoft Word Equation Filter (Pandoc Filter)
 
+YOU SHOULD WATCH THIS FIRST: https://www.youtube.com/watch?v=jlX_pThh7z8
+
 This filter is based on the same modules I've
 created in [Quick Word To LaTeX](https://github.com/ICPRplshelp/Quick-word-to-LaTeX-4).
 

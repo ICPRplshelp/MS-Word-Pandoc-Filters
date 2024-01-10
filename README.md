@@ -11,7 +11,7 @@ I know that `docx+styles` exists as an option (for those who know it), but there
 
 We have some filters:
 
-- `image_captioner_3.py`
+- `image_captioner.py`
     - Makes all Alt text captions. Precisely:
     - ![this](https://media.discordapp.net/attachments/1036007721343926342/1060011166853771274/image.png)
     - As of right now, you cannot tamper with figure numbering or make references to figures.

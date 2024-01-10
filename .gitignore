@@ -22,14 +22,10 @@
 
 out/
 
-*.py
-!helper_files/
-!ms_word_eqn_filter.py
-!code_block.py
-!image_captioner_3.py
-!start_wrapper.py
+IGNORE*.py
 
 __pycache__/
 aux_files/
 export/
+.vscode/
 .idea/

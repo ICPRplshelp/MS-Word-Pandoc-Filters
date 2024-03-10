@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """Makes all images with ALT text figures. The ALT text will act as the figure number.
 This filter should only be used when converting from any format other than markdown
 because pandoc already does this for you.

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """Pandoc filter that permits source code blocks
 in Microsoft Word to be treated as Markdown code blocks.
 

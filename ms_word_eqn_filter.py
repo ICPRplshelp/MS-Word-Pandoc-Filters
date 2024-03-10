@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import math
 import re
 from typing import Optional, Union, Iterable, Any

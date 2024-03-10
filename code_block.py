@@ -113,7 +113,7 @@ def set_code_block_language(code_block, doc):
     if type(code_block) == pf.Code:
         code_block.text = code_block.text.replace('\t', '    ').replace("‘", "'")\
             .replace("’", "'").replace('“', '"').replace('”', '"')\
-            .replace('ÔÇ£', '"').replace('ÔÇØ', '"')
+            .replace('ÔÇ£', '"').replace('ÔÇØ', '"').replace('–', '-').replace("â", "-")
     if type(code_block) == pf.CodeBlock:
         # Get the first line of the code block
         # pf.debug(dir(code_block))

@@ -430,7 +430,7 @@ def fix_equations(eqn: str) -> str:
             return None
 
         eqn_al = eqn_al.strip()
-        max_len = 80
+        max_len = 160
         if len(eqn_al) == 0 or eqn_al[0] != "{":
             tm = split_equation(eqn_al, max_len)
             if tm is None or len(tm) <= 1:

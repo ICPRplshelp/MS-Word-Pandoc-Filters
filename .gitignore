@@ -23,6 +23,7 @@
 out/
 
 IGNORE*.py
+TEMP_*
 
 __pycache__/
 aux_files/

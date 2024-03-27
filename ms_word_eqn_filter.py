@@ -28,6 +28,24 @@ def fix_equations(eqn: str) -> str:
             elif char == '}':
                 depth -= 1
         return depth
+    
+    def left_right_depth(s: str, index: int) -> int:
+        """Returns how deep I am, left to right
+        Assume the start token is the backslash, and
+        we count everything BEFORE index
+        """
+        depth = 0
+        left = "\\left"
+        right = "\\right"
+        longer = max(len(left), len(right))
+        for i, _ in enumerate(s):
+            if i == index:
+                return depth
+            if s[i:longer].startswith(left):
+                depth += 1
+            elif s[i:longer].startswith(right):
+                depth -= 1
+        return depth
 
     def fix_vectors_again(txt: str) -> str:
         arg1 = "overset{⃑}"
@@ -136,6 +154,9 @@ def fix_equations(eqn: str) -> str:
             Return none if the equation does not need to be split.
             If list_mode is set to True, then return as a list of strings.
             """
+
+            return None  # No more
+
 
             def remove_matrices(text: str, matrix_type: str) -> str:
                 """Approximate the length of all matrices.
@@ -432,7 +453,7 @@ def fix_equations(eqn: str) -> str:
             return None
 
         eqn_al = eqn_al.strip()
-        max_len = 160
+        max_len = 9999999999
         if len(eqn_al) == 0 or eqn_al[0] != "{":
             tm = split_equation(eqn_al, max_len)
             if tm is None or len(tm) <= 1:
@@ -498,15 +519,14 @@ def fix_equations(eqn: str) -> str:
         def add_and_to_symbol(text: str) -> str:
             hierarchy = [
                 ["\\iff", "\\Leftrightarrow", "\\Rightarrow", "\\implies", "\\Leftarrow"],
-                ['='],
                 ['<', '>', '\\leq', '\\geq', '\\approx'],
                 ['\\subset', '\\subseteq', '\\not\\subset'],
                 ['\\neq']
             ]
             target_index = 0  # start replacing BEFORE that index
             target_precedence = len(hierarchy) - 1
-            for j, char in enumerate(text):
-                if brace_depth(text, j) == 0:
+            for j, _ in enumerate(text):
+                if brace_depth(text, j) == 0 and left_right_depth(text, j):
                     for k, row in enumerate(hierarchy):
                         if k > target_precedence:
                             continue

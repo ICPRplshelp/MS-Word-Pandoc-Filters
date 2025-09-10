@@ -19,7 +19,9 @@
 *.cb
 *.cb2
 .*.lb
-
+*.synctex.gz
+*.fdb_latexmk
+cmd_pg.txt
 out/
 
 IGNORE*.py

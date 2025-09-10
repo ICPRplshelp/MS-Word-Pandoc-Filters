@@ -11,7 +11,7 @@ Images with NO ALT text will not be affected. In MS Word, mark those images as d
 import panflute as pf
 
 
-def set_code_block_language(elem, doc):
+def make_image_caption(elem, doc):
     if type(elem) == pf.Image:
         if len(elem.content) > 0:
             elem.title = 'fig:'
@@ -19,7 +19,7 @@ def set_code_block_language(elem, doc):
 
 def main(doc=None):
     # Iterate over all the code blocks in the document
-    return pf.run_filter(set_code_block_language, doc)
+    return pf.run_filter(make_image_caption, doc)
 
 
 if __name__ == '__main__':

@@ -1,3 +1,5 @@
+local pandoc = require('pandoc')
+
 function Para (para)
     if para.content[1] and para.content[1].text then
         local start = para.content[1].text

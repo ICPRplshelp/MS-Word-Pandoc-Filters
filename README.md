@@ -2,50 +2,26 @@
 
 YOU SHOULD USE THE WORD TEMPLATE PROVIDED IN THIS VIDEO: <https://www.youtube.com/watch?v=jlX_pThh7z8>
 
-This filter is based on the same modules I've
-created in [Quick Word To LaTeX](https://github.com/ICPRplshelp/Quick-word-to-LaTeX-4).
-
 These set of filters bridges the gap between Microsoft Word and Markdown when running conversions from them. Of course, Markdown **is** better for more complicated papers, so weigh pros and cons of using MS Word and Markdown accordingly. Moreover, use MS Word for informal documents that you won't be submitting as a thesis or publishing in a prestigious journal.
 
 I know that `docx+styles` exists as an option (for those who know it), but there are some downsides that exist with it -- mainly, it messes up how code blocks work -- which I plan to fix (not at the moment).
 
 We have some filters:
 
-- `image_captioner.py`
-  - Makes all Alt text captions. All images with Alt text will count as figures. Images without Alt text will not count as figures.
-  - As of right now, you cannot tamper with figure numbering or make references to figures.
-- `code_block.py`
+- `code_block.lua`
   - Makes source code blocks behave like Markdown code blocks, exactly.
       Define their language on the top of the code block. Languages are case-insensitive
 - `div_inserter.lua`
-  - If this starts a paragraph: `[TEXTINSQUAREBRACKETS]` This entire paragraph gets put in a LaTeX environment `textinsquarebrackets` (all lowercase) **given you use the `pandoc-latex-enviornment` filter**
-- `start_wrapper.py`
-  - DEPRECATED - DO NOT USE
+  - If this starts a paragraph: `[TEXTINSQUAREBRACKETS]` This entire paragraph gets put in a LaTeX environment `textinsquarebrackets` (all lowercase) **given you use the `pandoc-latex-enviornment` filter** (otherwise don't use it)
+- `word_eqn.lua`
+  - Fixes every issue pandoc has with Microsoft word equations. See [below](#how-the-equation-filter-works)
 
-
-
-In the future, I might allow wildcards.
-
-- `ms_word_eqn_filter.py`
-  - Read below
-
-**IMPORTANT:** One of the filters may break if you don't enter `set PYTHONIOENCODING=utf-8`
-in command prompt before running the filter. You must do this every time you open command prompt.
-
+*Note: caption images by using the "caption" feature in Microsoft Word, which is now supported in Pandoc for quite a while.*
 
 ## How to use filters
 
-
-You must have these python packages installed first:
-
-```
-panflute
-pandocfilters
-```
-
-Anywhere in your pandoc command, if `--filter <filtername>` is typed, then the filter `<filtername>` will be applied. `<filtername>` is the filter; an example being `code_block.py`. If you want to use multiple filters, just have multiple `--filter`s in your command.
-
-If the filter is a **Lua** filter, you must use `--lua-filter=<FILTER>` instead.
+Use your standard pandoc command, and specify the filters there.
+The flag is specifically `--lua-filter=<FILTER>`.
 
 Since the filter is a **path to a file**, it must either be:
 
@@ -58,7 +34,7 @@ A document can have multiple filters.
 SAMPLE COMMAND:
 
 ```sh
-pandoc -s word_file.docx -o output.pdf --filter code_block.py --filter ms_word_eqn_filter.py
+pandoc -s word_file.docx -o output.pdf --lua-filter=code_block.lua --lua-filter=word_eqn.lua
 ```
 
 # How the equation filter works

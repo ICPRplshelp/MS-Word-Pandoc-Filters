@@ -39,7 +39,7 @@ pandoc -s word_file.docx -o output.pdf --lua-filter=code_block.lua --lua-filter=
 
 # How the equation filter works
 
-I'll be assuming you're familiar with typesetting equations in Microsoft Word. If you aren't, take a look at [this guide that I've written.](https://github.com/ICPRplshelp/Quick-word-to-LaTeX-4/wiki/Microsoft-Word-Equation-Syntax)
+I'll be assuming you're familiar with typesetting equations in Microsoft Word. If you aren't, take a look at [this guide that I've written.](docs/msw_eqn_syntax.md)
 
 The equation filter works by ensuring that Pandoc's handling of Microsoft
 Word equations does not mess anything up. In other words, it makes

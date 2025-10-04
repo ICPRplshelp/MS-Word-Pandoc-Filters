@@ -19,6 +19,7 @@ We have some filters:
 - `no_longtable.lua`
   - Does not need to be with Microsoft Word, specifically. For conversions to LaTeX, prevents the `longtable` environment from being used entirely, instead using the `tabular` environment. One limitation: automatic line breaks don't occur anymore, so make sure your lines are short. **The only reason to use this, is if the pandoc template you're using can't support `longtable` such as anything that has multiple columns.**
   - **IMPORTANT:** When using this with `word_eqn.lua`, use this **AFTER**, meaning `--lua-filter=no_longtable.lua` must be placed after `--lua-filter=word_eqn.lua`.
+  - `\usepackage{makecell} \usepackage{graphicx}` may need to be put in the header: `-V header-includes="\usepackage{makecell} \usepackage{graphicx}"`.
 
 *Note: caption images by using the "caption" feature in Microsoft Word, which is now supported in Pandoc for quite a while.*
 

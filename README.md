@@ -8,6 +8,7 @@ I know that `docx+styles` exists as an option (for those who know it), but there
 
 We have some filters:
 
+
 - `code_block.lua`
   - Makes source code blocks behave like Markdown code blocks, exactly.
       Define their language on the top of the code block. Languages are case-insensitive
@@ -15,6 +16,9 @@ We have some filters:
   - If this starts a paragraph: `[TEXTINSQUAREBRACKETS]` This entire paragraph gets put in a LaTeX environment `textinsquarebrackets` (all lowercase) **given you use the `pandoc-latex-enviornment` filter** (otherwise don't use it)
 - `word_eqn.lua`
   - Fixes every issue pandoc has with Microsoft word equations. See [below](#how-the-equation-filter-works)
+- `no_longtable.lua`
+  - Does not need to be with Microsoft Word, specifically. For conversions to LaTeX, prevents the `longtable` environment from being used entirely, instead using the `tabular` environment. One limitation: automatic line breaks don't occur anymore, so make sure your lines are short. **The only reason to use this, is if the pandoc template you're using can't support `longtable` such as anything that has multiple columns.**
+  - **IMPORTANT:** When using this with `word_eqn.lua`, use this **AFTER**, meaning `--lua-filter=no_longtable.lua` must be placed after `--lua-filter=word_eqn.lua`.
 
 *Note: caption images by using the "caption" feature in Microsoft Word, which is now supported in Pandoc for quite a while.*
 
